@@ -54,28 +54,31 @@ public class MainActivity extends Activity {
 		}
 			
 		String imagePathAndFileName = path + File.separator + 
-				String.valueOf(System.currentTimeMillis()) + ".jpg" ;
+				String.valueOf(System.currentTimeMillis()) + ".jpg" ; //adding time to have unique name
 		
 		File imageFile = new File(imagePathAndFileName);
 		imageFileUri = Uri.fromFile(imageFile);
 		
-		//TODO: Add your code here ...
-		//TODO: Add your code here ...
-		//TODO: Add your code here ...
+		//changing code here !!! added new intent to capture image
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+		startActivityForResult(intent, CAMERA_ACIVITY_REQUEST_CODE);
+		//stopped here
+		
 
     }
     
+    private final int CAMERA_ACIVITY_REQUEST_CODE = 12345;
     //This method is run after returning back from camera activity:
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
-    	if (requestCode == 12345){
+		//requestCode used to coordinate the result. this is not good practice; define constant is better
+    	if (requestCode == CAMERA_ACIVITY_REQUEST_CODE){
 			TextView tv = (TextView)findViewById(R.id.status);
 			
 			if (resultCode == RESULT_OK){
-			//TODO: Add your code here ...
-			//TODO: Add your code here ...
-			//TODO: Add your code here ...
-			//TODO: Add your code here ...
+				tv.setText("PHOTO COMPLETED"); //set text and after text image with image from before
+				ImageButton ib = (ImageButton)findViewById(R.id.TakeAPhoto); //and here
+				ib.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath())); //setting captured image here
 			}
 			else
 				if (resultCode == RESULT_CANCELED){

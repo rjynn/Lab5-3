@@ -1,3 +1,4 @@
+//simulates a picture
 package es.softwareprocess.bogopicgen;
 
 import android.graphics.Bitmap;

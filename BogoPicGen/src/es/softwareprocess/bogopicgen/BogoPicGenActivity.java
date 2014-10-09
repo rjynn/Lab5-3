@@ -60,13 +60,13 @@ public class BogoPicGenActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		setBogoPic();
+		setBogoPic(); //creates the random image
 		ImageButton button = (ImageButton)findViewById(R.id.TakeAPhoto);
 
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				//takeAPhoto();
-				setBogoPic();
+				setBogoPic(); //this refreshes everytime cilck button
 				numberOfAttempts++;
 			}
 		}); 
@@ -89,10 +89,11 @@ public class BogoPicGenActivity extends Activity {
 	//The result should be saved in newBMP
 	//Also should be reflected in the imageButton
 	private void setBogoPic() {
-		//TODO: Add your code here:
-		//TODO: Add your code here:
-		//TODO: Add your code here:
-		//TODO: Add your code here:
+		//changed this here -- make toast, and generating new image and putting it in the app button
+		Toast.makeText(this, "Generating photo", Toast.LENGTH_SHORT).show();
+		newBMP = BogoPicGen.generateBitmap(400, 400);
+		ImageButton ib = (ImageButton) findViewById(R.id.TakeAPhoto);
+		ib.setImageBitmap(newBMP);
 	}
 	//----------------------------------------------------------------------------------------------------
 	//----------------------------------------------------------------------------------------------------
@@ -102,14 +103,18 @@ public class BogoPicGenActivity extends Activity {
 		Intent intent = getIntent();
 		if (intent != null) {
 			try {
-				if (intent.getExtras() != null) {    
+				if (intent.getExtras() != null) { //this is where the adress is sent through extras   
 					if (okPressed) {
-						//TODO: Add your code here:
-						//TODO: Add your code here:
-						//TODO: Add your code here:
-						//TODO: Add your code here:
-						//TODO: Add your code here:
-						//TODO: Add your code here:
+						Uri uri = (Uri) intent.getExtras().get(MediaStore.EXTRA_OUTPUT); //this is where address is to know
+						//where to save
+						OutputStream out = new FileOutputStream(
+								new File(uri.getPath()));
+						newBMP.compress(Bitmap.CompressFormat.JPEG, 75, out);
+						out.close();
+						setResult(RESULT_OK);
+						
+						
+						
 					}//if (okPressed).
 					else{//cancel is pressed:
 						Toast.makeText(this, "Photo Cancelled!", Toast.LENGTH_LONG).show();
